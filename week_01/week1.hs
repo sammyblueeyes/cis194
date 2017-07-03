@@ -15,14 +15,24 @@ toDigitsRev x
 {-
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther x = reverse (doubleEveryOther' (reverse x))
+-}
 
 doubleEveryOther' :: [Integer] -> [Integer]
 doubleEveryOther' []             = []
 doubleEveryOther' (h1 : [])      = [h1]
 doubleEveryOther' (h1 : h2 : t) = h1 : (h2*2) : (doubleEveryOther' t)
--}
 
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther xs  = [ if (even y) then (x*2) else x 
     | (x,y) <- zip xs (reverse (take (length xs) [1..])) ]
 
+{----------- Exercise 3 --------------------------------}
+
+sumDigits :: [Integer] -> Integer
+sumDigits []      = 0
+sumDigits (h : t) = sum (toDigits h) + sumDigits t
+
+{----------- Exercise 4 --------------------------------}
+
+validate :: Integer -> Bool
+validate n = (sumDigits (reverse (doubleEveryOther' (toDigitsRev n))) `mod` 10) == 0
