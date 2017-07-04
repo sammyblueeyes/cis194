@@ -12,19 +12,23 @@ toDigitsRev x
 
 {----------- Exercise 2 --------------------------------}
 
-{-
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther x = reverse (doubleEveryOther' (reverse x))
--}
+doubleEveryOther x = doubleEveryOther' (reverse x) []
 
-doubleEveryOther' :: [Integer] -> [Integer]
-doubleEveryOther' []             = []
-doubleEveryOther' (h1 : [])      = [h1]
-doubleEveryOther' (h1 : h2 : t) = h1 : (h2*2) : (doubleEveryOther' t)
+doubleEveryOther' :: [Integer] -> [Integer] -> [Integer]
+doubleEveryOther' []  l           = l
+doubleEveryOther' (h1 : [])  l    = h1 : l
+doubleEveryOther' (h1 : h2 : t) l = doubleEveryOther' t  ((h2*2) : h1 : l)
 
+{-
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther xs  = [ if (even y) then (x*2) else x 
     | (x,y) <- zip xs (reverse (take (length xs) [1..])) ]
+
+doubleEveryOther :: [Integer] -> [Integer]
+doubleEveryOther xs  = reverse [ if (even y) then (x*2) else x 
+    | (x,y) <-  (zip (reverse xs) [1..]) ]
+-}
 
 {----------- Exercise 3 --------------------------------}
 
@@ -35,4 +39,7 @@ sumDigits (h : t) = sum (toDigits h) + sumDigits t
 {----------- Exercise 4 --------------------------------}
 
 validate :: Integer -> Bool
-validate n = (sumDigits (reverse (doubleEveryOther' (toDigitsRev n))) `mod` 10) == 0
+validate n = (sumDigits (reverse (doubleEveryOther' (toDigitsRev n) [])) `mod` 10) == 0
+
+{----------- Exercise 5 --------------------------------}
+
